@@ -25,9 +25,11 @@ namespace spectrum {
 namespace plugins {
 namespace jpeg {
 
+#if __cplusplus < 201703L
 constexpr requirements::Encode::Quality LibJpegCompressor::QualityDefault;
 constexpr requirements::Encode::Quality LibJpegCompressor::QualityMin;
 constexpr requirements::Encode::Quality LibJpegCompressor::QualityMax;
+#endif // #if __cplusplus < 201703L
 
 namespace /* anonymous */ {
 void libJpegErrorToRuntimeExecption(j_common_ptr cinfo) {
@@ -145,7 +147,7 @@ void LibJpegCompressor::ensureReadyForWriteScanline() {
       jpeg_simple_progression(&libJpegCompressInfo);
     } else {
       libJpegCompressInfo.num_scans = 0;
-      libJpegCompressInfo.scan_info = NULL;
+      libJpegCompressInfo.scan_info = nullptr;
     }
 
     jpeg_start_compress(&libJpegCompressInfo, true);
